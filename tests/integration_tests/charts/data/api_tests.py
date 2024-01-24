@@ -619,7 +619,7 @@ class TestPostChartDataApi(BaseTestChartDataApi):
         rv = self.post_assert_metric(CHART_DATA_URI, self.query_context_payload, "data")
         result = rv.json["result"][0]["query"]
         if get_example_database().backend != "presto":
-            assert "('boy' = 'boy')" in result
+            assert "(\n      'boy' = 'boy'\n    )" in result
 
     @with_feature_flags(GLOBAL_ASYNC_QUERIES=True)
     @pytest.mark.usefixtures("load_birth_names_dashboard_with_slices")
@@ -1244,7 +1244,7 @@ def test_time_filter_with_grain(test_client, login_as_admin, physical_query_cont
     backend = get_example_database().backend
     if backend == "sqlite":
         assert (
-            "DATETIME(col5, 'start of day', -strftime('%w', col5) || ' days') >="
+            "DATETIME(col5, 'start of day', -STRFTIME('%w', col5) || ' days') >="
             in query
         )
     elif backend == "mysql":
