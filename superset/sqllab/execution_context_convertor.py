@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 import logging
+from collections import defaultdict
 from typing import Any, TYPE_CHECKING
 
 import simplejson as json
@@ -41,6 +42,18 @@ class ExecutionContextConvertor:
     def set_max_row_in_display(self, value: int) -> None:
         self._max_row_in_display_configuration = value  # pylint: disable=invalid-name
 
+    def convert_expanded_rows_to_key_value(self):
+        expanded_column_names_per_table = defaultdict(list)
+        for column in self.payload["expanded_columns"]:
+            table_name, _, column_name = column["name"].partition(".")
+            expanded_column_names_per_table[table_name].append(column_name)
+        for table_name in expanded_column_names_per_table:
+            for row in self.payload["data"]:
+                expanded_row_kv = dict(
+                    zip(expanded_column_names_per_table[table_name], row[table_name])
+                )
+                row[table_name] = expanded_row_kv
+
     def set_payload(
         self,
         execution_context: SqlJsonExecutionContext,
@@ -49,6 +62,7 @@ class ExecutionContextConvertor:
         self._exc_status = execution_status
         if execution_status == SqlJsonExecutionStatus.HAS_RESULTS:
             self.payload = execution_context.get_execution_result() or {}
+            self.convert_expanded_rows_to_key_value()
         else:
             self.payload = execution_context.query.to_dict()
 
