@@ -2,6 +2,36 @@ apiVersion: v1
 entries:
   superset:
   - apiVersion: v2
+    appVersion: 4.0.1
+    created: "2024-07-19T14:28:35.685654844Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.1.6
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.9.4
+    description: Apache Superset is a modern, enterprise-ready business intelligence
+      web application
+    digest: d2d8cf36a96a4a8fae947f0f1b4e6eb66359b2e6ff6eed47f2fbe8aa65a0d8a6
+    home: https://superset.apache.org/
+    icon: https://artifacthub.io/image/68c1d717-0e97-491f-b046-754e46f46922@2x
+    keywords:
+    - business intelligence
+    - data science
+    maintainers:
+    - email: craig@craigrueda.com
+      name: craig-rueda
+      url: https://github.com/craig-rueda
+    name: superset
+    sources:
+    - https://github.com/apache/superset
+    urls:
+    - https://github.com/brouberol/superset/releases/download/superset-helm-chart-0.12.12/superset-0.12.12.tgz
+    version: 0.12.12
+  - apiVersion: v2
     appVersion: 3.1.0
     created: "2024-01-21T17:44:20.711504451Z"
     dependencies:
@@ -2176,4 +2206,4 @@ entries:
     urls:
     - https://github.com/apache/superset/releases/download/superset-helm-chart-0.1.1/superset-0.1.1.tgz
     version: 0.1.1
-generated: "2024-01-21T17:44:20.712069503Z"
+generated: "2024-07-19T14:28:35.685914497Z"
